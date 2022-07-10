@@ -40,6 +40,6 @@ go run . # OR go run main.go
 Written by [Loick Cherimont](https://github.com/loickcherimont "Go on Loick's Profile")  
 under MIT License.
 
-Last edited on: July, 7th 2022
+Last edited on: July, 10th 2022
 
 
