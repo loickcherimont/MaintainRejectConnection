@@ -3,6 +3,8 @@ package main
 import (
 	"github.com/loickcherimont/MaintainRejectConnection/handler"
 	"github.com/loickcherimont/MaintainRejectConnection/router"
+
+	"fmt"
 )
 
 var (
@@ -19,5 +21,8 @@ func main() {
 	r.POST("/login", handler.LoginHandler)
 	r.POST("/logout", handler.LogoutHandler)
 
-	r.Run(":9000")
+	if err := r.Run(":9000"); err != nil {
+		fmt.Errorf("error: %v", err)
+		return
+	}
 }
