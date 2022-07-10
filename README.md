@@ -20,7 +20,7 @@ git clone github.com/loickcherimont/MaintainReject
 
 2. With your **CLI**, open the main directory
 ```bash
-cd ./MaintainReject
+cd ./MaintainRejectConnection
 ```
 
 3. Run the project 
