@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"log"
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/sessions"
@@ -28,7 +29,8 @@ func LoginHandler(c *gin.Context) {
 	session.Values["authenticated"] = true
 	session.Save(c.Request, c.Writer)
 
-	c.Redirect(http.StatusMovedPermanently, "/internalpage")
+	c.HTML(http.StatusOK, "internal.page.tmpl", nil)
+	return
 
 }
 
@@ -43,23 +45,26 @@ func LogoutHandler(c *gin.Context) {
 	session.Values["authenticated"] = false
 	session.Save(c.Request, c.Writer)
 
-	c.Redirect(http.StatusMovedPermanently, "/loginpage")
+	c.Redirect(http.StatusSeeOther, "/loginpage")
 }
 
 // Check if user is authenticated
-// if not display to user a message of FORBIDDEN ACCESS
+// if not user stay on login page
 // else go directly to internal page
+// TODO: CHANGE URI AUTOMATICALLY WHEN USER CONNECTION IS REJECTED
 func InternalPageHandler(c *gin.Context) {
 	session, err := store.Get(c.Request, "cookie-name")
 
 	if err != nil {
-		panic(err)
+		log.Println(err.Error())
+		return
 	}
 
 	if auth, ok := session.Values["authenticated"].(bool); !ok || !auth {
-		http.Error(c.Writer, "FORBIDDEN ACCESS", http.StatusForbidden)
+		c.HTML(http.StatusForbidden, "login.page.tmpl", nil)
 		return
 	}
 
 	c.HTML(http.StatusOK, "internal.page.tmpl", nil)
+	return
 }
